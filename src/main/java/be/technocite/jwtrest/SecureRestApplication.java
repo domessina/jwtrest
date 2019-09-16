@@ -1,0 +1,13 @@
+package be.technocite.jwtrest;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SecureRestApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SecureRestApplication.class, args);
+	}
+
+}
