@@ -1,5 +1,6 @@
 package be.technocite.jwtrest.service;
 
+import be.technocite.jwtrest.api.dto.CreateProductCommand;
 import be.technocite.jwtrest.api.dto.ProductDto;
 import be.technocite.jwtrest.model.Product;
 import be.technocite.jwtrest.repository.ProductRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
@@ -29,8 +31,18 @@ public class ProductService implements Function<Product, ProductDto> {
     }
 
     public ProductDto findById(String id) {
-        return apply(productRepository.findById(id));
+        Product product = productRepository.findById(id);
+        if (product != null) {
+            return apply(product);
+        } else {
+            throw new RuntimeException("product not found");
+        }
+    }
 
+    public String handleCreateCommand(CreateProductCommand command) {
+        return save(new Product(UUID.randomUUID().toString(),
+                command.getName(),
+                command.getPrice())).getId();
     }
 
     @Override

@@ -6,7 +6,7 @@ public class ProductDto {
     private String name;
     private double price;
 
-    protected ProductDto() {
+    public ProductDto() {
     }
 
     public ProductDto(String id, String name, double price) {
