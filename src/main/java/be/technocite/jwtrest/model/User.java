@@ -11,6 +11,13 @@ public class User {
     private boolean enabled;
     private Set<Role> roles;
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
     public String getEmail() {
         return email;

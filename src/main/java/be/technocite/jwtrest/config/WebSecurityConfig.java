@@ -11,17 +11,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import static be.technocite.jwtrest.model.Role.ADMIN;
 import static be.technocite.jwtrest.model.Role.USER;
@@ -70,19 +66,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //on ajoute le filtre
                 .and().addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-
     }
 
     /*on définit la réponse lorsque le client n'est pas authorisé*/
     @Bean
     public AuthenticationEntryPoint unauthorizedEntryPoint() {
-        return new AuthenticationEntryPoint() {
+        /*return new AuthenticationEntryPoint() {
             @Override
             public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             }
-        };
-//        return ((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"));
+        };*/
+        return ((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"));
     }
 
     @Bean

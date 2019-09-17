@@ -33,6 +33,8 @@ public class UserService implements UserDetailsService {
 
     public User registerUser(RegisterUserCommand command) {
         User user = new User();
+        user.setEmail(command.getEmail());
+        user.setFullname(command.getFullname());
         user.setPassword(bCryptPasswordEncoder.encode(command.getPassword()));
         user.setEnabled(true);
         user.setRoles(new HashSet<>(command.getRoles()));

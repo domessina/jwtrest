@@ -20,8 +20,6 @@ public class JwtTokenFilter extends GenericFilterBean {
     }
 
     /*on ajoute un filtre à la chaine de filtres qui précède l'accès au Handler (méthode REST)
-     * Si le token n'est pas valide alors la requete est abandonnée
-     * Si le token est bon alors la requete est passée aux filtres suivants
      * Une fois le dernier filtre passé la requête est envoyée au Handler (méthode REST du Controller)
      * */
     @Override
@@ -30,11 +28,10 @@ public class JwtTokenFilter extends GenericFilterBean {
         if (token != null && jwtTokenProvider.validateToken(token)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            chain.doFilter(request, response);
-        } else {
-            return;
         }
-
+        //dans cette manière de faire qu'importe que la requete soit bonne ou non pour ce filter, on la fera passer
+        //au filter suivant
+        chain.doFilter(request, response);
     }
 
 }
