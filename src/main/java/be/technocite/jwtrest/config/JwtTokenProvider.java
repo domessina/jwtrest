@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Set;
@@ -30,7 +31,12 @@ public class JwtTokenProvider {
 
     @PostConstruct
     private void encodeSecret() {
-        secret = Base64.getEncoder().encodeToString(secret.getBytes());
+        //initialisation d'un tableau de bytes vide
+        byte[] values = new byte[124];
+        //remplissage du tableau avec des bytes générés aléatoirement via un algorythme sécurisé (imprédictible)
+        new SecureRandom().nextBytes(values);
+        //on encode en base64 les bytes se qui nous retourne une String
+        secret = Base64.getEncoder().encodeToString(values);
     }
 
     public String createToken(String email, Set<Role> roles) {
