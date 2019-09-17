@@ -28,6 +28,7 @@ public class JwtTokenProvider {
     }
 
     public String createToken(String email, Set<Role> roles) {
+        //les claims sont les propriétés de la partie payload du token
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("roles", roles);
         Date now = new Date();

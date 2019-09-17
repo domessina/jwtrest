@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-public class UserController {
+public class AuthController {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -29,6 +29,9 @@ public class UserController {
     @Autowired
     private UserService userDetailsService;
 
+    /*On utilise un nouveau dto autre que User car le client n'a pas le droit de choisir si il
+    est enabled
+     */
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterUserCommand command) {
         User user = userDetailsService.findByEmail(command.getEmail());
@@ -36,6 +39,8 @@ public class UserController {
             throw new BadCredentialsException("User with email: " + command.getEmail() + " already exists");
         } else {
             userDetailsService.registerUser(command);
+            //spring va transformer automatiquement cette map en objet JSON,
+            //dont la clé sera le nom de la propriété
             Map<Object, Object> model = new HashMap<>();
             model.put("message", "User registered successfully");
             return ResponseEntity.ok(model);
