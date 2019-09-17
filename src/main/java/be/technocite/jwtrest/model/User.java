@@ -11,6 +11,7 @@ public class User {
     private boolean enabled;
     private Set<Role> roles;
 
+
     public String getEmail() {
         return email;
     }
